@@ -1,7 +1,9 @@
 require "parametrizer/version"
 require "parametrizer/configuration"
-require "parametrizer/language_parser"
-require "parametrizer/oem_parser"
+require "parametrizer/parsers/accept_language_header_parser"
+require "parametrizer/parsers/language_parser"
+require "parametrizer/parsers/country_parser"
+require "parametrizer/parsers/oem_parser"
 require "parametrizer/middleware"
 
 module Parametrizer

@@ -12,15 +12,12 @@ describe Parametrizer::Middleware do
   end
 
   it 'puts language in params' do
-    code, env = middleware.call env_for('http://texaco.test.com', 'HTTP_ACCEPT_LANGUAGE' => 'en-US;q=0.6')
-
-    expect(code).to eq 200
-    expect(env['action_dispatch.request.request_parameters']['languages']).to eq %w{en-US}
+    _, env = middleware.call env_for('http://texaco.test.com', 'HTTP_ACCEPT_LANGUAGE' => 'en-US;q=0.6')
+    expect(env['action_dispatch.request.request_parameters']['language']).to eq 'en'
   end
 
   it 'puts subdomain in params' do
-    code, env = middleware.call env_for('http://texaco.test.com')
-    expect(code).to eq 200
+    _, env = middleware.call env_for('http://texaco.test.com')
     expect(env['action_dispatch.request.request_parameters']['oem']).to eq 'texaco'
   end
 

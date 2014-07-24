@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Parametrizer::OemParser do
-  subject { Parametrizer::OemParser.new(server_name).oem }
+describe Parametrizer::Parsers::OemParser do
+  subject { Parametrizer::Parsers::OemParser.new(server_name).oem }
 
   before do
     Parametrizer.configure do |config|

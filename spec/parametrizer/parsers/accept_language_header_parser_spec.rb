@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Parametrizer::LanguageParser do
-  subject { Parametrizer::LanguageParser.new(header).languages }
+describe Parametrizer::Parsers::AcceptLanguageHeaderParser do
+  subject { Parametrizer::Parsers::AcceptLanguageHeaderParser.new(header).parsed_header }
 
   context 'when header is malformed' do
     let(:header) { 'asdasd..,;asd ..,..,' }
@@ -22,8 +22,8 @@ describe Parametrizer::LanguageParser do
   context 'when header is correctly formatted' do
     let(:header) { 'pl-pl, en-US;q=0.6,es-419' }
 
-    it 'returns array of languages' do
-      expect(subject).to eq %w{pl-PL es-419 en-US}
+    it 'returns parsed header' do
+      expect(subject).to eq ["pl-PL", "es-419", "en-US"]
     end
   end
 end

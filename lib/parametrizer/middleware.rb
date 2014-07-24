@@ -5,12 +5,14 @@ module Parametrizer
     end
 
     def call(env)
-      oem = OemParser.new(env['SERVER_NAME']).oem
-      languages = LanguageParser.new(env['HTTP_ACCEPT_LANGUAGE']).languages
+      oem = Parsers::OemParser.new(env['SERVER_NAME']).oem
+      language = Parsers::LanguageParser.new(env['HTTP_ACCEPT_LANGUAGE']).language
+      country = Parsers::CountryParser.new(env['HTTP_ACCEPT_LANGUAGE']).country
 
       env['action_dispatch.request.request_parameters'] ||= {}
       env['action_dispatch.request.request_parameters']['oem'] = oem
-      env['action_dispatch.request.request_parameters']['languages'] = languages
+      env['action_dispatch.request.request_parameters']['language'] = language
+      env['action_dispatch.request.request_parameters']['country'] = country
 
       @app.call(env)
     end
