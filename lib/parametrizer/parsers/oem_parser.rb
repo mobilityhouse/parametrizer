@@ -8,15 +8,10 @@ module Parametrizer
       end
 
       def oem
-        return nil unless server_name_ends_with?(".#{Parametrizer.configuration.base_host}")
+        return nil unless server_name.ends_with?(".#{Parametrizer.configuration.base_host}")
         server_name.sub(Parametrizer.configuration.base_host, '').split('.').last
       rescue ArgumentError
         nil
-      end
-
-      private
-      def server_name_ends_with?(suffix)
-        server_name[-suffix.length, suffix.length] == suffix
       end
     end
   end

@@ -5,7 +5,7 @@ module Parametrizer
     end
 
     def call(env)
-      oem = Parsers::OemParser.new(env['SERVER_NAME']).oem
+      oem = Parsers::OemParser.new(Rack::Request.new(env).host).oem
       language = Parsers::LanguageParser.new(env['HTTP_ACCEPT_LANGUAGE']).language
       country = Parsers::CountryParser.new(env['HTTP_ACCEPT_LANGUAGE']).country
 

@@ -5,6 +5,7 @@ require "parametrizer/parsers/language_parser"
 require "parametrizer/parsers/country_parser"
 require "parametrizer/parsers/oem_parser"
 require "parametrizer/middleware"
+require "active_support/core_ext/string"
 
 module Parametrizer
   class << self
