@@ -20,10 +20,10 @@ describe Parametrizer::Parsers::AcceptLanguageHeaderParser do
   end
 
   context 'when header is correctly formatted' do
-    let(:header) { 'pl-pl, en-US;q=0.6,es-419' }
+    let(:header) { 'pl-pl;q=0.8, en-US;q=0.5,es-419;q=0.1' }
 
     it 'returns parsed header' do
-      expect(subject).to eq ["pl-PL", "es-419", "en-US"]
+      expect(subject).to eq ["pl-PL", "en-US", 'es-419']
     end
   end
 end
