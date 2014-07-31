@@ -13,17 +13,17 @@ describe Parametrizer::Middleware do
 
   it 'puts language in params' do
     _, env = middleware.call env_for('http://texaco.test.com', 'HTTP_ACCEPT_LANGUAGE' => 'en-US;q=0.6')
-    expect(env['action_dispatch.request.request_parameters']['language']).to eq 'en'
+    expect(env['rack.request.query_hash']['language']).to eq 'en'
   end
 
   it 'puts oem in params' do
     _, env = middleware.call env_for('http://texaco.test.com')
-    expect(env['action_dispatch.request.request_parameters']['oem']).to eq 'texaco'
+    expect(env['rack.request.query_hash']['oem']).to eq 'texaco'
   end
 
   it 'puts country in params' do
     _, env = middleware.call env_for('http://texaco.test.com', 'HTTP_ACCEPT_LANGUAGE' => 'en-US;q=0.6')
-    expect(env['action_dispatch.request.request_parameters']['country']).to eq 'US'
+    expect(env['rack.request.query_hash']['country']).to eq 'US'
   end
 
   def env_for(url, opts = {})
