@@ -1,20 +1,44 @@
 module Parametrizer
   class Middleware
+    attr_accessor :request
+
     def initialize(app)
       @app = app
+
     end
 
     def call(env)
-      request = Rack::Request.new(env)
-      oem = Parsers::OemParser.new(request.host).oem
-      language = Parsers::LanguageParser.new(env['HTTP_ACCEPT_LANGUAGE']).language
-      country = Parsers::CountryParser.new(env['HTTP_ACCEPT_LANGUAGE']).country
+      @request = Rack::Request.new(env)
 
+      oem = Parsers::OemParser.new(request.host).oem
       request.update_param('oem', oem)
-      request.update_param('language', language) unless request.params.key?('language')
-      request.update_param('country', country) unless request.params.key?('country')
+
+      if locale_present_in_cookies?
+        language, country = read_from_cookies
+      else
+        language = Parsers::LanguageParser.new(env['HTTP_ACCEPT_LANGUAGE']).language
+        country = Parsers::CountryParser.new(env['HTTP_ACCEPT_LANGUAGE']).country
+      end
+
+      unless locale_present_in_request?
+        request.update_param('language', language)
+        request.update_param('country', country)
+      end
 
       @app.call(env)
+    end
+
+    private
+    def locale_present_in_request?
+      request.params.key?('language') || request.params.key?('country')
+    end
+
+    def locale_present_in_cookies?
+      !request.cookies['country'].nil? || !request.cookies['language'].nil?
+    end
+
+    def read_from_cookies
+      [request.cookies['language'], request.cookies['country']]
     end
   end
 end
