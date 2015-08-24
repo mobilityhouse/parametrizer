@@ -9,10 +9,19 @@ module Parametrizer
 
     def call(env)
       @request = Rack::Request.new(env)
-
+      
       oem = Parsers::OemParser.new(request.host).oem
       request.update_param('oem', oem)
-
+      
+      wallbox_session = Parsers::WallboxSessionParser.new(request.params).wallbox_session
+      request.update_param('wallbox_session_id', wallbox_session)
+      
+      car_identifier = Parsers::CarIdentifierParser.new(request.params).car_identifier
+      request.update_param('car_identifier', car_identifier)
+      
+      call_back_url = Parsers::CallbackUrlParser.new(request.params).call_back_url
+      request.update_param('call_back_url', call_back_url)
+      
       if locale_present_in_cookies?
         language, country = read_from_cookies
       else
