@@ -4,7 +4,7 @@ module Parametrizer
       attr_accessor :call_back_url
 
       def initialize(request_params)
-        @call_back_url = request_params['call_back_url']
+        @call_back_url = ( request_params['call_back_url'] =~ URI::regexp ).present? ? request_params['call_back_url'] : nil
       end
       
     end
